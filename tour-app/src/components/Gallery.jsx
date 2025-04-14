@@ -10,10 +10,11 @@ const Gallery = ({ tours, setTours, onRemove }) => {
     setLoading(true);
     try {
       const response = await fetch('https://course-api.com/react-tours-project');
-      if (!response.ok) throw new Error('Fetch failed');
+      if (!response.ok) throw new Error('Network error');
       const data = await response.json();
       setTours(data);
     } catch (err) {
+      console.error('Fetch error:', err);
       setError(true);
     } finally {
       setLoading(false);
@@ -25,7 +26,7 @@ const Gallery = ({ tours, setTours, onRemove }) => {
   }, []);
 
   if (loading) return <h2>Loading...</h2>;
-  if (error) return <h2>Error loading tours 😢</h2>;
+  if (error) return <h2>Error loading tours</h2>;
   if (tours.length === 0) return <h2>No tours left</h2>;
 
   return (
@@ -35,6 +36,4 @@ const Gallery = ({ tours, setTours, onRemove }) => {
       ))}
     </section>
   );
-};
-
-export default Gallery;
+}
